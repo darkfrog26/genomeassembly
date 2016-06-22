@@ -99,11 +99,7 @@ object GenomeAssemblyAsShortestSuperstring extends Logging {
       dna
     } else {
       val potential: Set[DNAMatch] = next.collect {
-        case o if remaining.contains(o.strand) => if (dna.contains(o.strand)) {
-          Some(new DNAMatch(dna, o.strand))   // Strand contained entirely in DNA
-        } else {
-          findOverlap(dna, o.strand)
-        }
+        case o if remaining.contains(o.strand) => findOverlap(dna, o.strand)
       }.flatten
       val results: Set[String] = potential.map { dnaMatch =>
         analyze(dnaMatches, dnaMatch.combined, dnaMatches(dnaMatch.strand), remaining - dnaMatch.strand)
